@@ -1,0 +1,25 @@
+{
+  "name": "realtime-db-updates",
+  "version": "1.0.0",
+  "description": "Real-time database update system using PostgreSQL LISTEN/NOTIFY and WebSockets",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --env-file=.env --watch src/server.js",
+    "test": "node --env-file=.env src/test-unit.js",
+    "client": "node --env-file=.env src/client.js"
+  },
+  "keywords": [
+    "realtime",
+    "websocket",
+    "postgresql",
+    "listen-notify"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.0",
+    "ws": "^8.18.0"
+  }
+}
