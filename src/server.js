@@ -1,0 +1,28 @@
+import http from 'http';
+import express from 'express';
+import config from './config.js';
+
+const app = express();
+
+app.use((req, res, next) => {
+  console.log(`[HTTP] ${req.method} ${req.url}`);
+  next();
+});
+app.use(express.json());
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
+const server = http.createServer(app);
+
+server.listen(config.port, () => {
+  console.log(`Real-Time Orders Service`);
+  console.log(`HTTP on port ${config.port}`);
+});
+
+async function shutdown(signal) {
+  console.log(`\n[Server] ${signal} received. Shutting down...`);
+  server.close();
+  process.exit(0);
+}
+
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
