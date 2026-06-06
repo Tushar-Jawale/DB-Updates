@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import config from './config.js';
 import { pool, startListener } from './db.js';
+import ordersRouter from './routes/orders.js';
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+app.use('/api/orders', ordersRouter);
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 const server = http.createServer(app);
