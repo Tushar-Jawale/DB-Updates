@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import config from './config.js';
 import { pool, startListener } from './db.js';
+import { createWebSocketServer, broadcast } from './ws.js';
 import ordersRouter from './routes/orders.js';
 
 const app = express();
@@ -15,14 +16,15 @@ app.use('/api/orders', ordersRouter);
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 const server = http.createServer(app);
+createWebSocketServer(server);
 
 startListener((payload) => {
-  console.log('Received payload:', payload);
+  broadcast(payload);
 });
 
 server.listen(config.port, () => {
   console.log(`Real-Time Orders Service`);
-  console.log(`HTTP on port ${config.port}`);
+  console.log(`HTTP + WS on port ${config.port}`);
 });
 
 async function shutdown(signal) {
